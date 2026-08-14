@@ -848,6 +848,15 @@
       BLOCK_PLACE: "Đặt block",
       SHOOT: "Bắn",
       HIT: "Trúng đòn",
+      HELD: "Khi cầm trên tay",
+      ITEM_BREAK: "Khi item sắp hỏng",
+      REPEATING: "Lặp lại",
+      CATCH_FISH: "Khi câu cá",
+      EFFECT_STATIC: "Hiệu ứng bị động",
+      HOOK_ENTITY: "Móc thực thể",
+      DEFENSE_PROJECTILE: "Chống đạn",
+      PASSIVE_DEATH: "Khi chết bị động",
+      EXPLOSION: "Nổ",
     };
 
     const appliesLabels = {
@@ -885,7 +894,11 @@
     }
 
     function translateType(type) {
-      return typeLabels[type] || type || "Không rõ";
+      if (!type) return "Không rõ";
+      return type
+        .split(";")
+        .map(part => typeLabels[part] || part.replace(/_/g, " ").toLowerCase())
+        .join(", ");
     }
 
     function translateApplies(applies) {
