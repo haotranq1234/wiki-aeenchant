@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Wiki tiếng Việt cho AdvancedEnchantments: giới thiệu plugin, tính năng, lệnh, menus Việt Hóa và các file cấu hình quan trọng." />
+  <title>AdvancedEnchantments Wiki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Azeret+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f5ef;
+      --bg-2: #eef2f7;
+      --panel: rgba(255,255,255,0.85);
+      --panel-strong: rgba(255,255,255,0.95);
+      --text: #0f172a;
+      --muted: #4b5563;
+      --line: rgba(15, 23, 42, 0.10);
+      --line-2: rgba(14, 116, 144, 0.18);
+      --brand: #0f766e;
+      --brand-2: #2563eb;
+      --accent: #f59e0b;
+      --shadow: 0 20px 50px rgba(15, 23, 42, 0.10);
+      --radius: 24px;
+      --sidebar: 290px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Be Vietnam Pro", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(37, 99, 235, 0.12), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(245, 158, 11, 0.12), transparent 24%),
+        linear-gradient(180deg, var(--bg) 0%, #fbfdff 42%, var(--bg-2) 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.65), transparent 88%);
+      opacity: 0.75;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    code {
+      font-family: "Azeret Mono", monospace;
+      font-size: 0.9em;
+      padding: 0.14rem 0.36rem;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.05);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: var(--sidebar) 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      border-right: 1px solid var(--line);
+      background: rgba(251, 253, 255, 0.88);
+      backdrop-filter: blur(14px);
+    }
+
+    .sidebar-inner {
+      padding: 18px 14px 28px;
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(37, 99, 235, 0.05));
+      box-shadow: 0 10px 24px rgba(15,23,42,0.04);
+      margin-bottom: 14px;
+    }
+
+    .mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: 0 12px 30px rgba(37,99,235,0.18);
+      flex-shrink: 0;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .search {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .search input {
+      width: 100%;
+      padding: 13px 42px 13px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.92);
+      color: var(--text);
+      outline: none;
+      font: inherit;
+    }
+
+    .search input::placeholder { color: rgba(75, 85, 99, 0.72); }
+    .hint {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      font-size: 0.74rem;
+      color: rgba(75, 85, 99, 0.85);
+      font-family: "Azeret Mono", monospace;
+    }
+
+    .sidebar-title {
+      margin: 16px 0 8px 6px;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(75, 85, 99, 0.82);
+      font-family: "Azeret Mono", monospace;
+    }
+
+    .nav {
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav a {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 14px;
+      color: var(--muted);
+      transition: background 150ms ease, transform 150ms ease, color 150ms ease, border-color 150ms ease;
+      border: 1px solid transparent;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--text);
+      background: rgba(15, 118, 110, 0.08);
+      border-color: rgba(15, 118, 110, 0.15);
+      transform: translateX(2px);
+    }
+
+    details.group {
+      margin-top: 10px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.80);
+      overflow: hidden;
+    }
+
+    details.group > summary {
+      list-style: none;
+      padding: 12px 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    details.group > summary::-webkit-details-marker { display: none; }
+    .group-body { padding: 0 10px 10px; }
+    .group-body a { margin-top: 6px; }
+
+    .note {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.09), rgba(37, 99, 235, 0.05));
+      border: 1px solid rgba(245, 158, 11, 0.18);
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.92rem;
+    }
+
+    .main { min-width: 0; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 26px;
+      background: rgba(247, 245, 239, 0.72);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    }
+
+    .topbar-left {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .menu-btn {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.9);
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .crumbs {
+      min-width: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .crumbs strong { color: var(--text); }
+
+    .topbar-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      flex-shrink: 0;
+    }
+
+    .kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+      padding: 5px 8px;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.06);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      font-family: "Azeret Mono", monospace;
+      color: var(--text);
+      font-size: 0.78rem;
+    }
+
+    .content {
+      width: min(1180px, 100%);
+      padding: 24px 26px 60px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(15, 118, 110, 0.12), transparent 36%),
+        linear-gradient(225deg, rgba(37, 99, 235, 0.10), transparent 42%),
+        var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -10% -24% auto;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.20), transparent 68%);
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(2.2rem, 5.8vw, 4.7rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      text-wrap: balance;
+      position: relative;
+      z-index: 1;
+    }
+
+    .title-accent {
+      background: linear-gradient(90deg, var(--brand), var(--brand-2), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      max-width: 80ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.03rem;
+      line-height: 1.84;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      margin-top: 22px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card {
+      border-radius: 22px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      background: rgba(255,255,255,0.80);
+      padding: 18px;
+      box-shadow: 0 10px 20px rgba(15,23,42,0.04);
+    }
+
+    .hero-card h2 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+    }
+
+    .meta-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .meta-item {
+      padding: 13px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      background: rgba(255,255,255,0.86);
+    }
+
+    .meta-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 4px;
+    }
+
+    .meta-item strong {
+      display: block;
+      line-height: 1.45;
+      font-size: 0.98rem;
+    }
+
+    .stats {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .stat b {
+      display: block;
+      font-size: 1.32rem;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .section {
+      margin-top: 24px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 14px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.45rem, 2.6vw, 2rem);
+      letter-spacing: -0.03em;
+    }
+
+    .section-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.72;
+      max-width: 72ch;
+    }
+
+    .panel {
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-inner {
+      padding: 20px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .toolbar input {
+      flex: 1 1 360px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.9);
+      outline: none;
+      color: var(--text);
+      font: inherit;
+    }
+
+    .toolbar input::placeholder { color: rgba(75, 85, 99, 0.75); }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      background: rgba(255,255,255,0.85);
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .chip.active {
+      color: white;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      border-color: transparent;
+      font-weight: 800;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--panel-strong);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      min-width: 0;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1.02rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.68;
+      font-size: 0.95rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-family: "Azeret Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.76rem;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .row b {
+      font-family: "Azeret Mono", monospace;
+      font-size: 0.92rem;
+    }
+
+    .row span {
+      color: var(--muted);
+      line-height: 1.66;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: rgba(75, 85, 99, 0.86);
+      font-size: 0.92rem;
+      line-height: 1.8;
+    }
+
+    .callout {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(15, 118, 110, 0.18);
+      background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(37, 99, 235, 0.05));
+      color: var(--muted);
+      line-height: 1.78;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 1080px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: min(92vw, var(--sidebar));
+        transform: translateX(-100%);
+        transition: transform 180ms ease;
+        z-index: 20;
+      }
+      .sidebar.open { transform: translateX(0); }
+      .menu-btn { display: inline-flex; align-items: center; justify-content: center; }
+      .cards, .stats, .hero-grid, .row { grid-template-columns: 1fr; }
+      .content { width: 100%; }
+    }
+
+    @media (max-width: 720px) {
+      .topbar, .content { padding-left: 16px; padding-right: 16px; }
+      .hero { padding: 20px; border-radius: 22px; }
+      .panel-inner { padding: 16px; }
+      .section-head { flex-direction: column; align-items: start; }
+      .topbar-right { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        <a class="brand" href="#welcome">
+          <div class="mark"></div>
+          <div>
+            <strong>AdvancedEnchantments Wiki</strong>
+            <span>Giới thiệu plugin bằng tiếng Việt</span>
+          </div>
+        </a>
+
+        <div class="search">
+          <input id="navSearch" type="search" placeholder="Tìm mục, ví dụ: soul, menu, enchant..." />
+          <div class="hint">⌘ K</div>
+        </div>
+
+        <div class="sidebar-title">Mục chính</div>
+        <nav class="nav" id="navLinks">
+          <a href="#welcome">Trang đầu</a>
+          <a href="#gioi-thieu">Giới thiệu</a>
+          <a href="#tinh-nang">Tính năng</a>
+          <a href="#enchant">Phù phép</a>
+          <a href="#menus">Menus Việt Hóa</a>
+          <a href="#items">Vật phẩm</a>
+          <a href="#commands">Lệnh</a>
+          <a href="#files">File cấu hình</a>
+          <a href="#vihoa">Việt Hóa</a>
+        </nav>
+
+        <div class="sidebar-title">Nhóm tài liệu</div>
+        <details class="group" open>
+          <summary>Tổng quan</summary>
+          <div class="group-body nav">
+            <a href="#welcome">Welcome</a>
+            <a href="#gioi-thieu">AdvancedEnchantments là gì</a>
+            <a href="#tinh-nang">Nó làm được gì</a>
+          </div>
+        </details>
+        <details class="group" open>
+          <summary>Hệ thống</summary>
+          <div class="group-body nav">
+            <a href="#enchant">Enchantments</a>
+            <a href="#items">Souls, Scroll, Orb</a>
+            <a href="#menus">GUI / Menus</a>
+          </div>
+        </details>
+        <details class="group">
+          <summary>Cấu hình</summary>
+          <div class="group-body nav">
+            <a href="#files">Các file .yml</a>
+            <a href="#vihoa">Bản Việt Hóa</a>
+          </div>
+        </details>
+
+        <div class="note">
+          Đây là wiki tiếng Việt cho <strong>AdvancedEnchantments</strong> theo phong cách docs:
+          sidebar trái, tìm kiếm nhanh, chia nhóm rõ ràng. Gói <code>menus.zip</code> trong thư mục Việt hóa
+          đã được chuẩn bị sẵn để dùng cho trang trí menu trong game.
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="menu-btn" id="menuBtn" aria-label="Mở menu">☰</button>
+          <div class="crumbs"><strong>AdvancedEnchantments</strong> / wiki tiếng Việt</div>
+        </div>
+        <div class="topbar-right">
+          <span>Search docs</span>
+          <span class="kbd">Ctrl</span> + <span class="kbd">K</span>
+        </div>
+      </div>
+
+      <div class="content">
+        <section class="hero" id="welcome">
+          <div class="badge-row">
+            <span class="badge">AdvancedEnchantments 9.24.10</span>
+            <span class="badge">182 phù phép</span>
+            <span class="badge">6 menu chính đã Việt Hóa</span>
+            <span class="badge">Việt hóa bởi NguyenDevs</span>
+          </div>
+          <h1><span class="title-accent">AdvancedEnchantments Wiki</span><br>trang giới thiệu plugin bằng tiếng Việt</h1>
+          <p class="lead">
+            <strong>AdvancedEnchantments</strong> là plugin hệ phù phép nâng cao cho Minecraft, tập trung vào
+            custom enchant, sách phù phép, souls, scroll, orb, set giáp, vũ khí tùy chỉnh và GUI quản lý item.
+            Trang này được viết theo kiểu wiki/docs giống cơ chế tài liệu hiện đại, nhưng nội dung và thứ tự
+            được sắp xếp theo plugin AE để người Việt dễ xem hơn.
+          </p>
+
+          <div class="hero-grid">
+            <div class="hero-card">
+              <h2>Plugin này dùng để làm gì?</h2>
+              <p class="lead" style="font-size: 0.96rem; max-width: none;">
+                AE cho phép server tạo ra hệ thống phù phép riêng như <strong>Fabled, Legendary, Ultimate, Elite, Simple</strong>,
+                kèm theo sách, dust, white scroll, black scroll, slot increaser, soul gem, set bonus, gkit,
+                alchemist, tinkerer và các menu giao diện để người chơi tương tác trực tiếp.
+              </p>
+            </div>
+            <div class="hero-card">
+              <h2>Thông tin nhanh</h2>
+              <div class="meta-grid">
+                <div class="meta-item">
+                  <span>Phiên bản đọc được từ file</span>
+                  <strong>9.24.10</strong>
+                </div>
+                <div class="meta-item">
+                  <span>Đầu ra Việt hóa</span>
+                  <strong>locale/vi.yml + menus.zip</strong>
+                </div>
+                <div class="meta-item">
+                  <span>Ghi chú</span>
+                  <strong>Bản Việt hóa có menu và thông báo đã dịch sẵn</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats" id="heroStats"></div>
+        </section>
+
+        <section class="section" id="gioi-thieu">
+          <div class="section-head">
+            <div>
+              <h2>Giới thiệu plugin</h2>
+              <p>AdvancedEnchantments là một hệ thống custom enchant lớn cho server Minecraft, cung cấp enchant đa dạng, menu mở sách, cải tạo item và nhiều công cụ cân bằng game.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-inner cards" id="introCards"></div>
+          </div>
+        </section>
+
+        <section class="section" id="tinh-nang">
+          <div class="section-head">
+            <div>
+              <h2>Tính năng chính</h2>
+              <p>Tổng hợp những phần làm nên AdvancedEnchantments: hệ enchant, vật phẩm phụ trợ, menu, set, API và các hệ thống có sẵn trong file jar.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-inner cards" id="featureCards"></div>
+          </div>
+        </section>
+
+        <section class="section" id="enchant">
+          <div class="section-head">
+            <div>
+              <h2>Hệ thống phù phép</h2>
+              <p>Trong file <code>enchantments.yml</code> có khoảng <strong>182</strong> phù phép được định nghĩa. Chúng được chia theo group như Simple, Unique, Elite, Ultimate, Legendary và Fabled.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-inner">
+              <div class="toolbar">
+                <input id="enchantSearch" type="search" placeholder="Tìm nhóm enchant hoặc từ khóa, ví dụ: soul, trap, lightning..." />
+              </div>
+              <div class="cards" id="enchantCards"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="menus">
+          <div class="section-head">
+            <div>
+              <h2>Menus Việt Hóa</h2>
+              <p>Gói <code>menus.zip</code> trong thư mục Việt hóa đã được chuẩn bị sẵn. Các menu chính giúp người chơi tương tác với AE mà không cần nhớ nhiều lệnh.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-inner cards" id="menuCards"></div>
+          </div>
+        </section>
+
+        <section class="section" id="items">
+          <div class="section-head">
+            <div>
+              <h2>Vật phẩm và hệ thống phụ trợ</h2>
+              <p>AE không chỉ có enchant mà còn có các item đặc biệt, soul system, orb, scroll, gkit, armor set, mob head và nhiều thứ khác để xây server RPG.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-inner">
+              <div class="list" id="itemList"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="commands">
+          <div class="section-head">
+            <div>
+              <h2>Lệnh chính</h2>
+              <p>Đây là các lệnh nổi bật đã thấy từ file cấu hình, dùng để mở GUI, cấp item, xem thông tin enchant và quản lý hệ thống.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-inner">
+              <div class="list" id="commandList"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="files">
+          <div class="section-head">
+            <div>
+              <h2>File cấu hình đáng chú ý</h2>
+              <p>AE có nhiều file cấu hình riêng để tách lệnh, menu, groups, locale, armor sets, custom weapons và loot. Phần này giúp bạn hình dung bố cục plugin.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-inner">
+              <div class="list" id="fileList"></div>
+              <div class="footer-note">
+                Có thể dùng thêm thư mục <code>locale/vi.yml</code> và <code>menus.zip</code> đã Việt Hóa để triển khai giao diện tiếng Việt cho server nhanh hơn.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="vihoa">
+          <div class="section-head">
+            <div>
+              <h2>Ghi chú Việt Hóa</h2>
+              <p>Trong gói bạn gửi có ghi <code>Việt hóa bởi NguyenDevs</code>. Điều đó có nghĩa là menu, thông báo và nhiều nhãn đã được chuẩn bị để người chơi Việt đọc dễ hơn.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-inner">
+              <div class="callout">
+                <strong>Điểm nổi bật:</strong> bản Việt hóa đi kèm <code>menus.zip</code>, <code>locale/vi.yml</code> và các file menu như
+                <code>enchanter.yml</code>, <code>alchemist.yml</code>, <code>tinkerer.yml</code>, <code>gkits.yml</code>,
+                <code>armorSetsPreview.yml</code>, <code>customcommands.yml</code>.
+                Đây là nền rất tốt để làm wiki giới thiệu hoặc hướng dẫn cài đặt cho người chơi.
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const intro = [
+      ["Hệ phù phép lớn", "AE là plugin custom enchant với hàng trăm phù phép, chia theo group và có thể mở bằng GUI hoặc sách."],
+      ["Vật phẩm đặc biệt", "Có White Scroll, Black Scroll, Magic Dust, Slot Increaser, Soul Gem, Orb và nhiều item phụ trợ."],
+      ["GUI tiện dụng", "Enchanter, Alchemist, Tinkerer, GKits, Armor Sets Preview và Custom Commands giúp người chơi thao tác trực quan."],
+      ["Tập trung RPG", "Có soul system, set bonus, armor set, custom weapon, mob head và loot để build server theo phong cách RPG."]
+    ];
+
+    const features = [
+      ["182 enchantments", "Khoảng 182 phù phép trong file enchantments.yml, chia theo độ hiếm và nhóm."],
+      ["6 group chính", "Simple, Unique, Elite, Ultimate, Legendary và Fabled để bán sách theo cấp."],
+      ["Custom items", "Black Scroll, White Scroll, Magic Dust, Slot Increaser, Soul Gem, Orb, Trak item."],
+      ["Souls system", "Hệ thống soul đi kèm item, skill và các enchant dùng souls để kích hoạt."],
+      ["Armor sets", "Có bộ giáp riêng với bonus theo set như Ranger, Yeti, Phantom, Supreme, Koth."],
+      ["Custom weapons", "Có mẫu vũ khí riêng như PhantomScythe, KothSword, KothAxe, DimensionalTravellerWeapon."],
+      ["Loot & mob heads", "Có file mobDrops, mobHeads, lootConfiguration để điều chỉnh phần thưởng."],
+      ["API & events", "Có API và event sẵn cho plugin khác tích hợp, mở rộng thêm tính năng."],
+      ["Anvil / Enchanter", "Hỗ trợ phù phép qua anvil, enchanter GUI và hệ thống sách."],
+      ["Tinkerer / Alchemist", "Đổi sách, dust và vật phẩm phụ trợ trong hai GUI chuyên dụng."],
+      ["GKits / preview", "Hệ thống gkit kèm preview, phù hợp server nhiều kit."],
+      ["Việt hóa sẵn", "locale/vi.yml và menus.zip đã được Việt hóa, giúp triển khai nhanh."]
+    ];
+
+    const enchantGroups = [
+      ["Simple", "Nhóm phù phép cơ bản, thường là enchant thấp hoặc dễ xuất hiện."],
+      ["Unique", "Nhóm hiếm hơn Simple, dùng cho giai đoạn đầu và mid-game."],
+      ["Elite", "Nhóm cao hơn, phù hợp item mạnh và PvP/PvE nâng cao."],
+      ["Ultimate", "Nhóm mạnh, hiệu ứng rõ rệt, tạo phong cách item đặc trưng."],
+      ["Legendary", "Nhóm hiếm và mạnh, thường là enchant nổi bật của server."],
+      ["Fabled", "Nhóm cao cấp nhất, dùng cho hiệu ứng rất mạnh và hiếm."],
+    ];
+
+    const menus = [
+      ["Enchanter", "GUI mở sách enchant theo group, hỗ trợ mua bằng exp, money, level, souls, diamond, gold, emerald."],
+      ["Alchemist", "Ghép sách và dust, nâng tỉ lệ và trộn nguyên liệu."],
+      ["Tinkerer", "Đổi item/enchant lấy tiền hoặc exp theo cấu hình."],
+      ["GKits", "Menu kit toàn server, có preview và phân quyền."],
+      ["Armor Sets Preview", "Xem trước bộ giáp và bonus set."],
+      ["Custom Commands", "GUI thông tin enchant / enchantment info và các lệnh tùy biến."]
+    ];
+
+    const items = [
+      ["White Scroll", "Bảo vệ item khỏi bị hủy khi thất bại."],
+      ["Black Scroll", "Gỡ một enchant ngẫu nhiên ra khỏi item."],
+      ["Magic Dust", "Tăng tỉ lệ thành công của sách."],
+      ["Slot Increaser", "Tăng số ô enchant của item."],
+      ["Soul Gem", "Thêm souls vào vật phẩm."],
+      ["Orb", "Tăng số slot enchant cho vũ khí, giáp hoặc tool."],
+      ["Transmog Scroll", "Sắp xếp enchant theo độ hiếm và làm lore gọn hơn."],
+      ["StatTrak / MobTrak / FishTrak / BlockTrak", "Theo dõi số kill, mob kill, cá bắt được hoặc block phá."],
+      ["Holy White Scroll", "Giữ bảo hộ item sau khi chết, tùy cấu hình."],
+      ["Book Enchantment", "Sách phù phép có success và destroy rate riêng."]
+    ];
+
+    const commands = [
+      ["/enchanter", "Mở GUI Enchanter, không cần quyền trong mặc định."],
+      ["/tinkerer", "Mở GUI Tinkerer để đổi sách và item."],
+      ["/gkits", "Mở menu Global Kits."],
+      ["/ae", "Lệnh chính của plugin, dùng cho info, give, admin, reload."],
+      ["/alchemist", "Mở GUI Alchemist."],
+      ["/apply", "Lấy giáp đang mặc ra và áp lại hiệu ứng."],
+      ["/withdrawsouls", "Rút souls ra thành item theo cấu hình."],
+      ["/aegive", "Cấp item plugin / gkit cho người chơi."],
+      ["/asets", "Lệnh liên quan Advanced Sets."]
+    ];
+
+    const files = [
+      ["config.yml", "Cấu hình lệnh, item hệ thống, slots, souls, white scroll, đổi ngôn ngữ."],
+      ["enchantments.yml", "Toàn bộ danh sách phù phép và level."],
+      ["groups.yml", "Nhóm enchant và màu group."],
+      ["anvil.yml", "Cấu hình anvil application."],
+      ["lootConfiguration.yml", "Cấu hình loot."],
+      ["mobHeads.yml", "Thiết lập mob head và rớt đầu mob."],
+      ["mobs.yml", "Danh sách mob / tương thích mob."],
+      ["locale/vi.yml", "Thông báo và ngôn ngữ tiếng Việt."],
+      ["menus/*.yml", "Các GUI như enchanter, alchemist, tinkerer, gkits."],
+      ["armorSets/*.yml", "Cấu hình từng bộ giáp."],
+      ["customWeapons/*.yml", "Vũ khí / item đặc biệt."]
+    ];
+
+    function makeGrid(items, fn) {
+      return items.map(fn).join("");
+    }
+
+    function makeRows(items, fn) {
+      return items.map(fn).join("");
+    }
+
+    document.getElementById("heroStats").innerHTML = makeGrid([
+      ["182", "Phù phép"],
+      ["6", "Menus Việt Hóa"],
+      ["7", "Armor sets"],
+      ["5", "Custom weapons"]
+    ], item => `
+      <div class="stat">
+        <b>${item[0]}</b>
+        <span>${item[1]}</span>
+      </div>
+    `);
+
+    document.getElementById("introCards").innerHTML = makeGrid(intro, item => `
+      <article class="card">
+        <h3>${item[0]}</h3>
+        <p>${item[1]}</p>
+      </article>
+    `);
+
+    document.getElementById("featureCards").innerHTML = makeGrid(features, item => `
+      <article class="card">
+        <div class="tag">Feature</div>
+        <h3>${item[0]}</h3>
+        <p>${item[1]}</p>
+      </article>
+    `);
+
+    document.getElementById("enchantCards").innerHTML = makeGrid(enchantGroups, item => `
+      <article class="card">
+        <div class="tag">Enchant Group</div>
+        <h3>${item[0]}</h3>
+        <p>${item[1]}</p>
+      </article>
+    `);
+
+    document.getElementById("menuCards").innerHTML = makeGrid(menus, item => `
+      <article class="card">
+        <div class="tag">Menu</div>
+        <h3>${item[0]}</h3>
+        <p>${item[1]}</p>
+      </article>
+    `);
+
+    document.getElementById("itemList").innerHTML = makeRows(items, item => `
+      <div class="row">
+        <b>${item[0]}</b>
+        <span>${item[1]}</span>
+      </div>
+    `);
+
+    document.getElementById("commandList").innerHTML = makeRows(commands, item => `
+      <div class="row">
+        <b>${item[0]}</b>
+        <span>${item[1]}</span>
+      </div>
+    `);
+
+    document.getElementById("fileList").innerHTML = makeRows(files, item => `
+      <div class="row">
+        <b>${item[0]}</b>
+        <span>${item[1]}</span>
+      </div>
+    `);
+
+    const navLinks = [...document.querySelectorAll("#navLinks a")];
+    const sections = navLinks.map(link => document.querySelector(link.getAttribute("href"))).filter(Boolean);
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      navLinks.forEach(link => link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`));
+    }, { rootMargin: "-35% 0px -55% 0px", threshold: [0.08, 0.2, 0.35] });
+    sections.forEach(section => observer.observe(section));
+
+    const navSearch = document.getElementById("navSearch");
+    navSearch.addEventListener("input", () => {
+      const q = navSearch.value.trim().toLowerCase();
+      navLinks.forEach(link => {
+        const match = link.textContent.toLowerCase().includes(q);
+        link.classList.toggle("hidden", q.length > 0 && !match);
+      });
+    });
+
+    const enchantSearch = document.getElementById("enchantSearch");
+    enchantSearch.addEventListener("input", () => {
+      const q = enchantSearch.value.trim().toLowerCase();
+      const filtered = enchantGroups.filter(item => `${item[0]} ${item[1]}`.toLowerCase().includes(q));
+      document.getElementById("enchantCards").innerHTML = makeGrid(filtered, item => `
+        <article class="card">
+          <div class="tag">Enchant Group</div>
+          <h3>${item[0]}</h3>
+          <p>${item[1]}</p>
+        </article>
+      `);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        navSearch.focus();
+      }
+      if (e.key === "Escape") {
+        sidebar.classList.remove("open");
+      }
+    });
+
+    const sidebar = document.getElementById("sidebar");
+    document.getElementById("menuBtn").addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+    });
+  </script>
+</body>
+</html>
