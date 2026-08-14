@@ -868,88 +868,6 @@
       Tools: "Dụng cụ",
     };
 
-    const effectRules = [
-      [/Chance to /gi, "Có cơ hội "],
-      [/Chance of /gi, "Có cơ hội "],
-      [/Deal more damage to /gi, "Gây thêm sát thương cho "],
-      [/Deal damage to /gi, "Gây sát thương cho "],
-      [/Deal more damage/gi, "Gây thêm sát thương"],
-      [/Deal damage/gi, "Gây sát thương"],
-      [/Take less damage/gi, "Nhận ít sát thương hơn"],
-      [/Take more damage/gi, "Nhận nhiều sát thương hơn"],
-      [/Gain speed/gi, "Nhận tốc độ"],
-      [/When /gi, "Khi "],
-      [/when /gi, "khi "],
-      [/while /gi, "trong khi "],
-      [/by right-clicking/gi, "bằng cách nhấp chuột phải"],
-      [/by shift\+right-clicking/gi, "bằng cách giữ Shift + nhấp chuột phải"],
-      [/shift\+right-clicking/gi, "giữ Shift + nhấp chuột phải"],
-      [/right-clicking/gi, "nhấp chuột phải"],
-      [/left-clicking/gi, "nhấp chuột trái"],
-      [/nearby/gi, "xung quanh"],
-      [/players/gi, "người chơi"],
-      [/player/gi, "người chơi"],
-      [/mobs/gi, "quái"],
-      [/mob/gi, "quái"],
-      [/hotbar/gi, "thanh hotbar"],
-      [/armor/gi, "giáp"],
-      [/sword/gi, "kiếm"],
-      [/swords/gi, "kiếm"],
-      [/axe/gi, "rìu"],
-      [/bow/gi, "cung"],
-      [/crossbow/gi, "nỏ"],
-      [/pickaxe/gi, "cuốc chim"],
-      [/hoe/gi, "cuốc"],
-      [/fishing rod/gi, "cần câu"],
-      [/elytra/gi, "elytra"],
-      [/goat horn/gi, "kèn dê"],
-      [/health/gi, "máu"],
-      [/heal/gi, "hồi máu"],
-      [/damage/gi, "sát thương"],
-      [/speed/gi, "tốc độ"],
-      [/freeze/gi, "đóng băng"],
-      [/lightning/gi, "sét"],
-      [/fire/gi, "lửa"],
-      [/pull/gi, "kéo"],
-      [/teleport/gi, "dịch chuyển"],
-      [/summon/gi, "triệu hồi"],
-      [/souls/gi, "linh hồn"],
-      [/soul/gi, "linh hồn"],
-      [/book/gi, "sách"],
-      [/scroll/gi, "scroll"],
-      [/orb/gi, "orb"],
-      [/item/gi, "vật phẩm"],
-      [/items/gi, "vật phẩm"],
-      [/set bonus/gi, "bonus bộ"],
-      [/chance/gi, "cơ hội"],
-      [/cooldown/gi, "hồi chiêu"],
-      [/reduce/gi, "giảm"],
-      [/increase/gi, "tăng"],
-      [/multiply/gi, "nhân"],
-      [/shuffle/gi, "xáo trộn"],
-      [/destroy/gi, "phá hủy"],
-      [/protect/gi, "bảo vệ"],
-      [/remove/gi, "loại bỏ"],
-      [/apply/gi, "áp dụng"],
-      [/activate/gi, "kích hoạt"],
-      [/create/gi, "tạo"],
-      [/track/gi, "theo dõi"],
-      [/call/gi, "gọi"],
-      [/boost/gi, "tăng cường"],
-      [/random/gi, "ngẫu nhiên"],
-      [/allies/gi, "đồng minh"],
-      [/enemy's/gi, "của kẻ địch"],
-      [/opponent's/gi, "của đối thủ"],
-      [/enemy/gi, "kẻ địch"],
-      [/opponent/gi, "đối thủ"],
-      [/yourself/gi, "bản thân bạn"],
-      [/your/gi, "của bạn"],
-      [/and /gi, "và "],
-      [/or /gi, "hoặc "],
-      [/at night/gi, "vào ban đêm"],
-      [/3x3 area/gi, "khu vực 3x3"],
-    ];
-
     function cleanName(name, id) {
       let s = (name || "").replace(/%group-color%|%group-name%/g, "").replace(/&[0-9a-fk-or]/gi, "");
       s = s.replace(/\s+/g, " ").trim();
@@ -960,28 +878,6 @@
           .join(" ");
       }
       return s;
-    }
-
-    function translateEffect(text) {
-      let s = text || "";
-      for (const [pattern, replacement] of effectRules) {
-        s = s.replace(pattern, replacement);
-      }
-      s = s.replace(/\b(Boots|Boot)\b/gi, "ủng");
-      s = s.replace(/\b(Helmet|Helm)\b/gi, "mũ");
-      s = s.replace(/\b(Chestplate|Chest)\b/gi, "áo giáp");
-      s = s.replace(/\b(Pickaxe)\b/gi, "cuốc chim");
-      s = s.replace(/\b(Hoe|Hoes)\b/gi, "cuốc");
-      s = s.replace(/\b(Sword|Swords)\b/gi, "kiếm");
-      s = s.replace(/\b(Axe|Axes)\b/gi, "rìu");
-      s = s.replace(/\b(Bow)\b/gi, "cung");
-      s = s.replace(/\b(Crossbow)\b/gi, "nỏ");
-      s = s.replace(/\b(Elytra)\b/gi, "elytra");
-      s = s.replace(/\b(Fishing Rod)\b/gi, "cần câu");
-      s = s.replace(/\b(Hotbar)\b/gi, "hotbar");
-      s = s.replace(/\s+/g, " ").trim();
-      if (!s) return "Chưa có mô tả.";
-      return s.charAt(0).toUpperCase() + s.slice(1);
     }
 
     function translateGroup(group) {
@@ -1074,7 +970,7 @@
       const q = searchQuery.trim().toLowerCase();
       const filtered = window.AE_ENCHANTS.filter(item => {
         const matchesGroup = activeGroup === "all" || item.group === activeGroup;
-        const hay = `${item.id} ${item.name} ${item.group} ${item.applies} ${item.type} ${item.desc}`.toLowerCase();
+        const hay = `${item.id} ${item.name} ${item.group} ${item.applies} ${item.type} ${item.desc} ${item.descVi || ""}`.toLowerCase();
         return matchesGroup && hay.includes(q);
       });
 
@@ -1103,7 +999,7 @@
             <span class="muted">${translateType(item.type)}</span>
           </div>
           <div class="label effect" data-label="Tác dụng">
-            ${translateEffect(item.desc)}
+            ${item.descVi || item.desc || "Chưa có mô tả."}
           </div>
         </div>
       `).join("");
