@@ -3,25 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Wiki tiếng Việt cho AdvancedEnchantments: giới thiệu plugin, tính năng, lệnh, menus Việt Hóa và các file cấu hình quan trọng." />
+  <meta name="description" content="Wiki tiếng Việt cho AdvancedEnchantments: giới thiệu plugin, tính năng, lệnh, vật phẩm và danh sách 182 enchant kèm tác dụng." />
   <title>AdvancedEnchantments Wiki</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Azeret+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f7f5ef;
-      --bg-2: #eef2f7;
-      --panel: rgba(255,255,255,0.85);
+      --bg: #f6f4ee;
+      --bg-2: #eef3f8;
+      --panel: rgba(255,255,255,0.84);
       --panel-strong: rgba(255,255,255,0.95);
-      --text: #0f172a;
-      --muted: #4b5563;
-      --line: rgba(15, 23, 42, 0.10);
-      --line-2: rgba(14, 116, 144, 0.18);
+      --text: #101827;
+      --muted: #536174;
+      --line: rgba(16, 24, 39, 0.10);
       --brand: #0f766e;
       --brand-2: #2563eb;
-      --accent: #f59e0b;
-      --shadow: 0 20px 50px rgba(15, 23, 42, 0.10);
+      --accent: #b45309;
+      --shadow: 0 18px 50px rgba(16, 24, 39, 0.10);
       --radius: 24px;
       --sidebar: 290px;
     }
@@ -34,9 +33,9 @@
       color: var(--text);
       font-family: "Be Vietnam Pro", system-ui, sans-serif;
       background:
-        radial-gradient(circle at 10% 0%, rgba(37, 99, 235, 0.12), transparent 30%),
-        radial-gradient(circle at 90% 10%, rgba(245, 158, 11, 0.12), transparent 24%),
-        linear-gradient(180deg, var(--bg) 0%, #fbfdff 42%, var(--bg-2) 100%);
+        radial-gradient(circle at 10% 0%, rgba(37, 99, 235, 0.12), transparent 28%),
+        radial-gradient(circle at 90% 10%, rgba(180, 83, 9, 0.10), transparent 24%),
+        linear-gradient(180deg, var(--bg) 0%, #fbfdff 45%, var(--bg-2) 100%);
       overflow-x: hidden;
     }
 
@@ -46,11 +45,11 @@
       inset: 0;
       pointer-events: none;
       background-image:
-        linear-gradient(rgba(15, 23, 42, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+        linear-gradient(rgba(16, 24, 39, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16, 24, 39, 0.035) 1px, transparent 1px);
       background-size: 42px 42px;
+      opacity: 0.72;
       mask-image: linear-gradient(180deg, rgba(0,0,0,0.65), transparent 88%);
-      opacity: 0.75;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -59,8 +58,8 @@
       font-size: 0.9em;
       padding: 0.14rem 0.36rem;
       border-radius: 8px;
-      background: rgba(15, 23, 42, 0.05);
-      border: 1px solid rgba(15, 23, 42, 0.08);
+      background: rgba(16, 24, 39, 0.05);
+      border: 1px solid rgba(16, 24, 39, 0.08);
     }
 
     .app {
@@ -91,7 +90,7 @@
       border-radius: 20px;
       border: 1px solid var(--line);
       background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(37, 99, 235, 0.05));
-      box-shadow: 0 10px 24px rgba(15,23,42,0.04);
+      box-shadow: 0 10px 24px rgba(16, 24, 39, 0.04);
       margin-bottom: 14px;
     }
 
@@ -100,7 +99,7 @@
       height: 42px;
       border-radius: 14px;
       background: linear-gradient(135deg, var(--brand), var(--brand-2));
-      box-shadow: 0 12px 30px rgba(37,99,235,0.18);
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.18);
       flex-shrink: 0;
     }
 
@@ -122,7 +121,8 @@
       margin-bottom: 12px;
     }
 
-    .search input {
+    .search input,
+    .toolbar input {
       width: 100%;
       padding: 13px 42px 13px 14px;
       border-radius: 16px;
@@ -133,14 +133,16 @@
       font: inherit;
     }
 
-    .search input::placeholder { color: rgba(75, 85, 99, 0.72); }
+    .search input::placeholder,
+    .toolbar input::placeholder { color: rgba(83, 97, 116, 0.72); }
+
     .hint {
       position: absolute;
       top: 50%;
       right: 10px;
       transform: translateY(-50%);
       font-size: 0.74rem;
-      color: rgba(75, 85, 99, 0.85);
+      color: rgba(83, 97, 116, 0.85);
       font-family: "Azeret Mono", monospace;
     }
 
@@ -149,7 +151,7 @@
       font-size: 0.72rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(75, 85, 99, 0.82);
+      color: rgba(83, 97, 116, 0.82);
       font-family: "Azeret Mono", monospace;
     }
 
@@ -198,8 +200,8 @@
       margin-top: 16px;
       padding: 14px;
       border-radius: 18px;
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.09), rgba(37, 99, 235, 0.05));
-      border: 1px solid rgba(245, 158, 11, 0.18);
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(180, 83, 9, 0.05));
+      border: 1px solid rgba(37, 99, 235, 0.18);
       color: var(--muted);
       line-height: 1.7;
       font-size: 0.92rem;
@@ -216,9 +218,9 @@
       justify-content: space-between;
       gap: 14px;
       padding: 14px 26px;
-      background: rgba(247, 245, 239, 0.72);
+      background: rgba(247, 244, 238, 0.72);
       backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+      border-bottom: 1px solid rgba(16, 24, 39, 0.06);
     }
 
     .topbar-left {
@@ -263,8 +265,8 @@
       min-width: 30px;
       padding: 5px 8px;
       border-radius: 10px;
-      background: rgba(15, 23, 42, 0.06);
-      border: 1px solid rgba(15, 23, 42, 0.08);
+      background: rgba(16, 24, 39, 0.06);
+      border: 1px solid rgba(16, 24, 39, 0.08);
       font-family: "Azeret Mono", monospace;
       color: var(--text);
       font-size: 0.78rem;
@@ -315,7 +317,7 @@
       padding: 8px 12px;
       border-radius: 999px;
       background: rgba(255,255,255,0.82);
-      border: 1px solid rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(16, 24, 39, 0.08);
       color: var(--muted);
       font-size: 0.84rem;
     }
@@ -358,10 +360,10 @@
 
     .hero-card {
       border-radius: 22px;
-      border: 1px solid rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(16, 24, 39, 0.08);
       background: rgba(255,255,255,0.80);
       padding: 18px;
-      box-shadow: 0 10px 20px rgba(15,23,42,0.04);
+      box-shadow: 0 10px 20px rgba(16,24,39,0.04);
     }
 
     .hero-card h2 {
@@ -377,7 +379,7 @@
     .meta-item {
       padding: 13px 14px;
       border-radius: 16px;
-      border: 1px solid rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(16, 24, 39, 0.08);
       background: rgba(255,255,255,0.86);
     }
 
@@ -405,7 +407,7 @@
       padding: 16px;
       border-radius: 18px;
       background: rgba(255,255,255,0.88);
-      border: 1px solid rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(16, 24, 39, 0.08);
     }
 
     .stat b {
@@ -460,21 +462,12 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .toolbar input {
       flex: 1 1 360px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.9);
-      outline: none;
-      color: var(--text);
-      font: inherit;
     }
-
-    .toolbar input::placeholder { color: rgba(75, 85, 99, 0.75); }
 
     .chips {
       display: flex;
@@ -485,10 +478,12 @@
     .chip {
       padding: 10px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(16, 24, 39, 0.08);
       background: rgba(255,255,255,0.85);
       color: var(--muted);
       font-size: 0.88rem;
+      cursor: pointer;
+      user-select: none;
     }
 
     .chip.active {
@@ -508,7 +503,7 @@
       padding: 18px;
       border-radius: 18px;
       background: var(--panel-strong);
-      border: 1px solid rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(16, 24, 39, 0.08);
       min-width: 0;
     }
 
@@ -543,29 +538,43 @@
 
     .row {
       display: grid;
-      grid-template-columns: 240px 1fr;
-      gap: 14px;
+      grid-template-columns: 220px 100px 120px 120px 1fr;
+      gap: 12px;
       padding: 14px 16px;
       border-radius: 16px;
       background: rgba(255,255,255,0.85);
-      border: 1px solid rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(16, 24, 39, 0.08);
+      align-items: start;
+    }
+
+    .row.header {
+      position: sticky;
+      top: 74px;
+      z-index: 5;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.92));
+      font-weight: 800;
+      color: var(--text);
     }
 
     .row b {
       font-family: "Azeret Mono", monospace;
       font-size: 0.92rem;
+      word-break: break-word;
     }
 
-    .row span {
-      color: var(--muted);
-      line-height: 1.66;
-    }
+    .muted { color: var(--muted); }
+    .effect { line-height: 1.66; color: var(--text); }
 
-    .footer-note {
-      margin-top: 18px;
-      color: rgba(75, 85, 99, 0.86);
-      font-size: 0.92rem;
-      line-height: 1.8;
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.08);
+      color: var(--brand);
+      font-size: 0.84rem;
+      font-weight: 700;
     }
 
     .callout {
@@ -575,6 +584,13 @@
       background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(37, 99, 235, 0.05));
       color: var(--muted);
       line-height: 1.78;
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      color: rgba(83, 97, 116, 0.86);
+      font-size: 0.92rem;
+      line-height: 1.8;
     }
 
     .hidden { display: none !important; }
@@ -591,8 +607,16 @@
       }
       .sidebar.open { transform: translateX(0); }
       .menu-btn { display: inline-flex; align-items: center; justify-content: center; }
-      .cards, .stats, .hero-grid, .row { grid-template-columns: 1fr; }
+      .cards, .stats { grid-template-columns: 1fr 1fr; }
+      .row, .hero-grid { grid-template-columns: 1fr; }
       .content { width: 100%; }
+      .row.header { display: none; }
+      .row { gap: 8px; }
+      .row .label::before {
+        content: attr(data-label) ": ";
+        font-weight: 800;
+        color: var(--text);
+      }
     }
 
     @media (max-width: 720px) {
@@ -601,6 +625,9 @@
       .panel-inner { padding: 16px; }
       .section-head { flex-direction: column; align-items: start; }
       .topbar-right { display: none; }
+      .cards, .stats { grid-template-columns: 1fr; }
+      .row { grid-template-columns: 1fr; }
+      .row .label::before { content: attr(data-label) ": "; font-weight: 800; color: var(--text); }
     }
   </style>
 </head>
@@ -617,7 +644,7 @@
         </a>
 
         <div class="search">
-          <input id="navSearch" type="search" placeholder="Tìm mục, ví dụ: soul, menu, enchant..." />
+          <input id="navSearch" type="search" placeholder="Tìm mục, ví dụ: enchant, item, lệnh..." />
           <div class="hint">⌘ K</div>
         </div>
 
@@ -626,43 +653,28 @@
           <a href="#welcome">Trang đầu</a>
           <a href="#gioi-thieu">Giới thiệu</a>
           <a href="#tinh-nang">Tính năng</a>
-          <a href="#enchant">Phù phép</a>
-          <a href="#menus">Menus Việt Hóa</a>
+          <a href="#enchant">182 Enchant</a>
           <a href="#items">Vật phẩm</a>
           <a href="#commands">Lệnh</a>
-          <a href="#files">File cấu hình</a>
-          <a href="#vihoa">Việt Hóa</a>
         </nav>
 
-        <div class="sidebar-title">Nhóm tài liệu</div>
+        <div class="sidebar-title">Nhóm enchant</div>
         <details class="group" open>
-          <summary>Tổng quan</summary>
+          <summary>6 cấp độ hiếm</summary>
           <div class="group-body nav">
-            <a href="#welcome">Welcome</a>
-            <a href="#gioi-thieu">AdvancedEnchantments là gì</a>
-            <a href="#tinh-nang">Nó làm được gì</a>
-          </div>
-        </details>
-        <details class="group" open>
-          <summary>Hệ thống</summary>
-          <div class="group-body nav">
-            <a href="#enchant">Enchantments</a>
-            <a href="#items">Souls, Scroll, Orb</a>
-            <a href="#menus">GUI / Menus</a>
-          </div>
-        </details>
-        <details class="group">
-          <summary>Cấu hình</summary>
-          <div class="group-body nav">
-            <a href="#files">Các file .yml</a>
-            <a href="#vihoa">Bản Việt Hóa</a>
+            <a href="#enchant" data-group="all">Tất cả</a>
+            <a href="#enchant" data-group="SIMPLE">SIMPLE</a>
+            <a href="#enchant" data-group="UNIQUE">UNIQUE</a>
+            <a href="#enchant" data-group="ELITE">ELITE</a>
+            <a href="#enchant" data-group="ULTIMATE">ULTIMATE</a>
+            <a href="#enchant" data-group="LEGENDARY">LEGENDARY</a>
+            <a href="#enchant" data-group="FABLED">FABLED</a>
           </div>
         </details>
 
         <div class="note">
-          Đây là wiki tiếng Việt cho <strong>AdvancedEnchantments</strong> theo phong cách docs:
-          sidebar trái, tìm kiếm nhanh, chia nhóm rõ ràng. Gói <code>menus.zip</code> trong thư mục Việt hóa
-          đã được chuẩn bị sẵn để dùng cho trang trí menu trong game.
+          Trang này chỉ giữ phần giới thiệu, danh sách 182 enchant, vật phẩm và lệnh chính.
+          Các mục cấu hình và ngôn ngữ bổ trợ đã được bỏ theo yêu cầu của bạn.
         </div>
       </div>
     </aside>
@@ -683,41 +695,42 @@
         <section class="hero" id="welcome">
           <div class="badge-row">
             <span class="badge">AdvancedEnchantments 9.24.10</span>
-            <span class="badge">182 phù phép</span>
-            <span class="badge">6 menu chính đã Việt Hóa</span>
-            <span class="badge">Việt hóa bởi NguyenDevs</span>
+            <span class="badge">182 enchant</span>
+            <span class="badge">6 group phù phép</span>
+            <span class="badge">Bản giới thiệu tiếng Việt</span>
           </div>
           <h1><span class="title-accent">AdvancedEnchantments Wiki</span><br>trang giới thiệu plugin bằng tiếng Việt</h1>
           <p class="lead">
-            <strong>AdvancedEnchantments</strong> là plugin hệ phù phép nâng cao cho Minecraft, tập trung vào
-            custom enchant, sách phù phép, souls, scroll, orb, set giáp, vũ khí tùy chỉnh và GUI quản lý item.
-            Trang này được viết theo kiểu wiki/docs giống cơ chế tài liệu hiện đại, nhưng nội dung và thứ tự
-            được sắp xếp theo plugin AE để người Việt dễ xem hơn.
+            <strong>AdvancedEnchantments</strong> là plugin hệ phù phép nâng cao cho Minecraft, cung cấp
+            custom enchant, sách phù phép, souls, scroll, orb, set giáp, vũ khí tùy chỉnh, GUI quản lý item
+            và nhiều công cụ cân bằng gameplay. Trang này tập trung liệt kê đầy đủ <strong>182 enchant</strong>
+            kèm tác dụng bằng tiếng Việt để bạn tra cứu nhanh.
           </p>
 
           <div class="hero-grid">
             <div class="hero-card">
-              <h2>Plugin này dùng để làm gì?</h2>
+              <h2>Plugin này làm gì?</h2>
               <p class="lead" style="font-size: 0.96rem; max-width: none;">
-                AE cho phép server tạo ra hệ thống phù phép riêng như <strong>Fabled, Legendary, Ultimate, Elite, Simple</strong>,
-                kèm theo sách, dust, white scroll, black scroll, slot increaser, soul gem, set bonus, gkit,
-                alchemist, tinkerer và các menu giao diện để người chơi tương tác trực tiếp.
+                AE cho phép server xây dựng hệ thống phù phép riêng theo nhóm như
+                <strong>SIMPLE, UNIQUE, ELITE, ULTIMATE, LEGENDARY, FABLED</strong>.
+                Người chơi có thể dùng sách, dust, white scroll, black scroll, orb và hệ thống souls
+                để nâng cấp item theo phong cách RPG.
               </p>
             </div>
             <div class="hero-card">
               <h2>Thông tin nhanh</h2>
               <div class="meta-grid">
                 <div class="meta-item">
-                  <span>Phiên bản đọc được từ file</span>
+                  <span>Phiên bản đọc từ file</span>
                   <strong>9.24.10</strong>
                 </div>
                 <div class="meta-item">
-                  <span>Đầu ra Việt hóa</span>
-                  <strong>locale/vi.yml + menus.zip</strong>
+                  <span>Số enchant đã nhận diện</span>
+                  <strong>182 mục</strong>
                 </div>
                 <div class="meta-item">
-                  <span>Ghi chú</span>
-                  <strong>Bản Việt hóa có menu và thông báo đã dịch sẵn</strong>
+                  <span>Trọng tâm</span>
+                  <strong>Phù phép, item, souls, GUI, set, API</strong>
                 </div>
               </div>
             </div>
@@ -730,7 +743,7 @@
           <div class="section-head">
             <div>
               <h2>Giới thiệu plugin</h2>
-              <p>AdvancedEnchantments là một hệ thống custom enchant lớn cho server Minecraft, cung cấp enchant đa dạng, menu mở sách, cải tạo item và nhiều công cụ cân bằng game.</p>
+              <p>AdvancedEnchantments là một hệ custom enchant rất lớn, phù hợp server RPG, SMP nâng cao hoặc server cần cơ chế item phức tạp hơn vanilla.</p>
             </div>
           </div>
           <div class="panel">
@@ -742,7 +755,7 @@
           <div class="section-head">
             <div>
               <h2>Tính năng chính</h2>
-              <p>Tổng hợp những phần làm nên AdvancedEnchantments: hệ enchant, vật phẩm phụ trợ, menu, set, API và các hệ thống có sẵn trong file jar.</p>
+              <p>Đây là những phần nổi bật nhất mà plugin đem lại cho server.</p>
             </div>
           </div>
           <div class="panel">
@@ -753,29 +766,22 @@
         <section class="section" id="enchant">
           <div class="section-head">
             <div>
-              <h2>Hệ thống phù phép</h2>
-              <p>Trong file <code>enchantments.yml</code> có khoảng <strong>182</strong> phù phép được định nghĩa. Chúng được chia theo group như Simple, Unique, Elite, Ultimate, Legendary và Fabled.</p>
+              <h2>Danh sách 182 enchant</h2>
+              <p>Mỗi dòng gồm tên enchant, nhóm, loại vật phẩm áp dụng, kiểu kích hoạt và mô tả tác dụng bằng tiếng Việt.</p>
             </div>
           </div>
           <div class="panel">
             <div class="panel-inner">
               <div class="toolbar">
-                <input id="enchantSearch" type="search" placeholder="Tìm nhóm enchant hoặc từ khóa, ví dụ: soul, trap, lightning..." />
+                <input id="enchantSearch" type="search" placeholder="Tìm enchant, ví dụ: soul, lightning, trap, armor..." />
               </div>
-              <div class="cards" id="enchantCards"></div>
+              <div class="chips" id="groupChips"></div>
+              <div style="height: 14px;"></div>
+              <div class="list" id="enchantList"></div>
+              <div class="footer-note">
+                Mô tả bên dưới là bản diễn giải tiếng Việt từ <code>enchantments.yml</code> để người Việt dễ đọc và tra cứu.
+              </div>
             </div>
-          </div>
-        </section>
-
-        <section class="section" id="menus">
-          <div class="section-head">
-            <div>
-              <h2>Menus Việt Hóa</h2>
-              <p>Gói <code>menus.zip</code> trong thư mục Việt hóa đã được chuẩn bị sẵn. Các menu chính giúp người chơi tương tác với AE mà không cần nhớ nhiều lệnh.</p>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-inner cards" id="menuCards"></div>
           </div>
         </section>
 
@@ -783,7 +789,7 @@
           <div class="section-head">
             <div>
               <h2>Vật phẩm và hệ thống phụ trợ</h2>
-              <p>AE không chỉ có enchant mà còn có các item đặc biệt, soul system, orb, scroll, gkit, armor set, mob head và nhiều thứ khác để xây server RPG.</p>
+              <p>AE không chỉ có enchant mà còn có các item đặc biệt, souls, orb, scroll, set giáp, gkit và nhiều hệ thống phụ trợ.</p>
             </div>
           </div>
           <div class="panel">
@@ -797,7 +803,7 @@
           <div class="section-head">
             <div>
               <h2>Lệnh chính</h2>
-              <p>Đây là các lệnh nổi bật đã thấy từ file cấu hình, dùng để mở GUI, cấp item, xem thông tin enchant và quản lý hệ thống.</p>
+              <p>Nhóm lệnh quan trọng để mở GUI, cấp item, xem thông tin enchant và quản lý plugin.</p>
             </div>
           </div>
           <div class="panel">
@@ -806,154 +812,320 @@
             </div>
           </div>
         </section>
-
-        <section class="section" id="files">
-          <div class="section-head">
-            <div>
-              <h2>File cấu hình đáng chú ý</h2>
-              <p>AE có nhiều file cấu hình riêng để tách lệnh, menu, groups, locale, armor sets, custom weapons và loot. Phần này giúp bạn hình dung bố cục plugin.</p>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-inner">
-              <div class="list" id="fileList"></div>
-              <div class="footer-note">
-                Có thể dùng thêm thư mục <code>locale/vi.yml</code> và <code>menus.zip</code> đã Việt Hóa để triển khai giao diện tiếng Việt cho server nhanh hơn.
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="section" id="vihoa">
-          <div class="section-head">
-            <div>
-              <h2>Ghi chú Việt Hóa</h2>
-              <p>Trong gói bạn gửi có ghi <code>Việt hóa bởi NguyenDevs</code>. Điều đó có nghĩa là menu, thông báo và nhiều nhãn đã được chuẩn bị để người chơi Việt đọc dễ hơn.</p>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-inner">
-              <div class="callout">
-                <strong>Điểm nổi bật:</strong> bản Việt hóa đi kèm <code>menus.zip</code>, <code>locale/vi.yml</code> và các file menu như
-                <code>enchanter.yml</code>, <code>alchemist.yml</code>, <code>tinkerer.yml</code>, <code>gkits.yml</code>,
-                <code>armorSetsPreview.yml</code>, <code>customcommands.yml</code>.
-                Đây là nền rất tốt để làm wiki giới thiệu hoặc hướng dẫn cài đặt cho người chơi.
-              </div>
-            </div>
-          </div>
-        </section>
       </div>
     </main>
   </div>
 
+  <script src="./enchantments-data.js"></script>
   <script>
-    const intro = [
-      ["Hệ phù phép lớn", "AE là plugin custom enchant với hàng trăm phù phép, chia theo group và có thể mở bằng GUI hoặc sách."],
-      ["Vật phẩm đặc biệt", "Có White Scroll, Black Scroll, Magic Dust, Slot Increaser, Soul Gem, Orb và nhiều item phụ trợ."],
-      ["GUI tiện dụng", "Enchanter, Alchemist, Tinkerer, GKits, Armor Sets Preview và Custom Commands giúp người chơi thao tác trực quan."],
-      ["Tập trung RPG", "Có soul system, set bonus, armor set, custom weapon, mob head và loot để build server theo phong cách RPG."]
+    const groupLabels = {
+      SIMPLE: "Cơ bản",
+      UNIQUE: "Độc đáo",
+      ELITE: "Tinh anh",
+      ULTIMATE: "Tối thượng",
+      LEGENDARY: "Huyền thoại",
+      FABLED: "Truyền thuyết",
+    };
+
+    const typeLabels = {
+      MINING: "Khai thác",
+      ATTACK: "Tấn công",
+      ATTACK_MOB: "Đánh quái",
+      ATTACK_PLAYER: "Đánh người",
+      RIGHT_CLICK: "Chuột phải",
+      LEFT_CLICK: "Chuột trái",
+      FALL_DAMAGE: "Rơi",
+      BITE_HOOK: "Cắn câu",
+      HORN: "Kèn",
+      KILL_MOB: "Giết quái",
+      KILL_PLAYER: "Giết người",
+      ELYTRA_FLY: "Bay Elytra",
+      DEFENSE: "Phòng thủ",
+      LOW_HEALTH: "Máu thấp",
+      DEATH: "Chết",
+      TAKE_DAMAGE: "Nhận sát thương",
+      BLOCK_BREAK: "Phá block",
+      BLOCK_PLACE: "Đặt block",
+      SHOOT: "Bắn",
+      HIT: "Trúng đòn",
+    };
+
+    const appliesLabels = {
+      Swords: "Kiếm",
+      Axes: "Rìu",
+      Armor: "Giáp",
+      Boots: "Ủng",
+      Helmet: "Mũ",
+      Chestplate: "Áo giáp",
+      Pickaxe: "Cuốc chim",
+      Hoes: "Cuốc",
+      "Fishing Rod": "Cần câu",
+      Elytra: "Elytra",
+      "Goat horn": "Kèn dê",
+      Bow: "Cung",
+      Crossbow: "Nỏ",
+      Weapons: "Vũ khí",
+      Tools: "Dụng cụ",
+    };
+
+    const effectRules = [
+      [/Chance to /gi, "Có cơ hội "],
+      [/Chance of /gi, "Có cơ hội "],
+      [/Deal more damage to /gi, "Gây thêm sát thương cho "],
+      [/Deal damage to /gi, "Gây sát thương cho "],
+      [/Deal more damage/gi, "Gây thêm sát thương"],
+      [/Deal damage/gi, "Gây sát thương"],
+      [/Take less damage/gi, "Nhận ít sát thương hơn"],
+      [/Take more damage/gi, "Nhận nhiều sát thương hơn"],
+      [/Gain speed/gi, "Nhận tốc độ"],
+      [/When /gi, "Khi "],
+      [/when /gi, "khi "],
+      [/while /gi, "trong khi "],
+      [/by right-clicking/gi, "bằng cách nhấp chuột phải"],
+      [/by shift\+right-clicking/gi, "bằng cách giữ Shift + nhấp chuột phải"],
+      [/shift\+right-clicking/gi, "giữ Shift + nhấp chuột phải"],
+      [/right-clicking/gi, "nhấp chuột phải"],
+      [/left-clicking/gi, "nhấp chuột trái"],
+      [/nearby/gi, "xung quanh"],
+      [/players/gi, "người chơi"],
+      [/player/gi, "người chơi"],
+      [/mobs/gi, "quái"],
+      [/mob/gi, "quái"],
+      [/hotbar/gi, "thanh hotbar"],
+      [/armor/gi, "giáp"],
+      [/sword/gi, "kiếm"],
+      [/swords/gi, "kiếm"],
+      [/axe/gi, "rìu"],
+      [/bow/gi, "cung"],
+      [/crossbow/gi, "nỏ"],
+      [/pickaxe/gi, "cuốc chim"],
+      [/hoe/gi, "cuốc"],
+      [/fishing rod/gi, "cần câu"],
+      [/elytra/gi, "elytra"],
+      [/goat horn/gi, "kèn dê"],
+      [/health/gi, "máu"],
+      [/heal/gi, "hồi máu"],
+      [/damage/gi, "sát thương"],
+      [/speed/gi, "tốc độ"],
+      [/freeze/gi, "đóng băng"],
+      [/lightning/gi, "sét"],
+      [/fire/gi, "lửa"],
+      [/pull/gi, "kéo"],
+      [/teleport/gi, "dịch chuyển"],
+      [/summon/gi, "triệu hồi"],
+      [/souls/gi, "linh hồn"],
+      [/soul/gi, "linh hồn"],
+      [/book/gi, "sách"],
+      [/scroll/gi, "scroll"],
+      [/orb/gi, "orb"],
+      [/item/gi, "vật phẩm"],
+      [/items/gi, "vật phẩm"],
+      [/set bonus/gi, "bonus bộ"],
+      [/chance/gi, "cơ hội"],
+      [/cooldown/gi, "hồi chiêu"],
+      [/reduce/gi, "giảm"],
+      [/increase/gi, "tăng"],
+      [/multiply/gi, "nhân"],
+      [/shuffle/gi, "xáo trộn"],
+      [/destroy/gi, "phá hủy"],
+      [/protect/gi, "bảo vệ"],
+      [/remove/gi, "loại bỏ"],
+      [/apply/gi, "áp dụng"],
+      [/activate/gi, "kích hoạt"],
+      [/create/gi, "tạo"],
+      [/track/gi, "theo dõi"],
+      [/call/gi, "gọi"],
+      [/boost/gi, "tăng cường"],
+      [/random/gi, "ngẫu nhiên"],
+      [/allies/gi, "đồng minh"],
+      [/enemy's/gi, "của kẻ địch"],
+      [/opponent's/gi, "của đối thủ"],
+      [/enemy/gi, "kẻ địch"],
+      [/opponent/gi, "đối thủ"],
+      [/yourself/gi, "bản thân bạn"],
+      [/your/gi, "của bạn"],
+      [/and /gi, "và "],
+      [/or /gi, "hoặc "],
+      [/at night/gi, "vào ban đêm"],
+      [/3x3 area/gi, "khu vực 3x3"],
     ];
 
-    const features = [
-      ["182 enchantments", "Khoảng 182 phù phép trong file enchantments.yml, chia theo độ hiếm và nhóm."],
-      ["6 group chính", "Simple, Unique, Elite, Ultimate, Legendary và Fabled để bán sách theo cấp."],
-      ["Custom items", "Black Scroll, White Scroll, Magic Dust, Slot Increaser, Soul Gem, Orb, Trak item."],
-      ["Souls system", "Hệ thống soul đi kèm item, skill và các enchant dùng souls để kích hoạt."],
-      ["Armor sets", "Có bộ giáp riêng với bonus theo set như Ranger, Yeti, Phantom, Supreme, Koth."],
-      ["Custom weapons", "Có mẫu vũ khí riêng như PhantomScythe, KothSword, KothAxe, DimensionalTravellerWeapon."],
-      ["Loot & mob heads", "Có file mobDrops, mobHeads, lootConfiguration để điều chỉnh phần thưởng."],
-      ["API & events", "Có API và event sẵn cho plugin khác tích hợp, mở rộng thêm tính năng."],
-      ["Anvil / Enchanter", "Hỗ trợ phù phép qua anvil, enchanter GUI và hệ thống sách."],
-      ["Tinkerer / Alchemist", "Đổi sách, dust và vật phẩm phụ trợ trong hai GUI chuyên dụng."],
-      ["GKits / preview", "Hệ thống gkit kèm preview, phù hợp server nhiều kit."],
-      ["Việt hóa sẵn", "locale/vi.yml và menus.zip đã được Việt hóa, giúp triển khai nhanh."]
-    ];
+    function cleanName(name, id) {
+      let s = (name || "").replace(/%group-color%|%group-name%/g, "").replace(/&[0-9a-fk-or]/gi, "");
+      s = s.replace(/\s+/g, " ").trim();
+      if (!s) {
+        return id
+          .split("_")
+          .map(part => part ? part[0].toUpperCase() + part.slice(1) : "")
+          .join(" ");
+      }
+      return s;
+    }
 
-    const enchantGroups = [
-      ["Simple", "Nhóm phù phép cơ bản, thường là enchant thấp hoặc dễ xuất hiện."],
-      ["Unique", "Nhóm hiếm hơn Simple, dùng cho giai đoạn đầu và mid-game."],
-      ["Elite", "Nhóm cao hơn, phù hợp item mạnh và PvP/PvE nâng cao."],
-      ["Ultimate", "Nhóm mạnh, hiệu ứng rõ rệt, tạo phong cách item đặc trưng."],
-      ["Legendary", "Nhóm hiếm và mạnh, thường là enchant nổi bật của server."],
-      ["Fabled", "Nhóm cao cấp nhất, dùng cho hiệu ứng rất mạnh và hiếm."],
-    ];
+    function translateEffect(text) {
+      let s = text || "";
+      for (const [pattern, replacement] of effectRules) {
+        s = s.replace(pattern, replacement);
+      }
+      s = s.replace(/\b(Boots|Boot)\b/gi, "ủng");
+      s = s.replace(/\b(Helmet|Helm)\b/gi, "mũ");
+      s = s.replace(/\b(Chestplate|Chest)\b/gi, "áo giáp");
+      s = s.replace(/\b(Pickaxe)\b/gi, "cuốc chim");
+      s = s.replace(/\b(Hoe|Hoes)\b/gi, "cuốc");
+      s = s.replace(/\b(Sword|Swords)\b/gi, "kiếm");
+      s = s.replace(/\b(Axe|Axes)\b/gi, "rìu");
+      s = s.replace(/\b(Bow)\b/gi, "cung");
+      s = s.replace(/\b(Crossbow)\b/gi, "nỏ");
+      s = s.replace(/\b(Elytra)\b/gi, "elytra");
+      s = s.replace(/\b(Fishing Rod)\b/gi, "cần câu");
+      s = s.replace(/\b(Hotbar)\b/gi, "hotbar");
+      s = s.replace(/\s+/g, " ").trim();
+      if (!s) return "Chưa có mô tả.";
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    }
 
-    const menus = [
-      ["Enchanter", "GUI mở sách enchant theo group, hỗ trợ mua bằng exp, money, level, souls, diamond, gold, emerald."],
-      ["Alchemist", "Ghép sách và dust, nâng tỉ lệ và trộn nguyên liệu."],
-      ["Tinkerer", "Đổi item/enchant lấy tiền hoặc exp theo cấu hình."],
-      ["GKits", "Menu kit toàn server, có preview và phân quyền."],
-      ["Armor Sets Preview", "Xem trước bộ giáp và bonus set."],
-      ["Custom Commands", "GUI thông tin enchant / enchantment info và các lệnh tùy biến."]
-    ];
+    function translateGroup(group) {
+      return `${group} • ${groupLabels[group] || "Không rõ"}`;
+    }
+
+    function translateType(type) {
+      return typeLabels[type] || type || "Không rõ";
+    }
+
+    function translateApplies(applies) {
+      if (!applies) return "Không rõ";
+      return appliesLabels[applies] || applies.replace(/_/g, " ");
+    }
 
     const items = [
-      ["White Scroll", "Bảo vệ item khỏi bị hủy khi thất bại."],
-      ["Black Scroll", "Gỡ một enchant ngẫu nhiên ra khỏi item."],
-      ["Magic Dust", "Tăng tỉ lệ thành công của sách."],
-      ["Slot Increaser", "Tăng số ô enchant của item."],
-      ["Soul Gem", "Thêm souls vào vật phẩm."],
-      ["Orb", "Tăng số slot enchant cho vũ khí, giáp hoặc tool."],
+      ["White Scroll", "Bảo vệ item khỏi bị phá hủy khi sách thất bại."],
+      ["Black Scroll", "Gỡ ngẫu nhiên một enchant khỏi vật phẩm."],
+      ["Magic Dust", "Tăng tỉ lệ thành công của sách enchant."],
+      ["Slot Increaser", "Tăng số slot enchant của vật phẩm."],
+      ["Soul Gem", "Thêm souls vào item."],
+      ["Orb", "Tăng số slot cho vũ khí, giáp hoặc tool."],
       ["Transmog Scroll", "Sắp xếp enchant theo độ hiếm và làm lore gọn hơn."],
       ["StatTrak / MobTrak / FishTrak / BlockTrak", "Theo dõi số kill, mob kill, cá bắt được hoặc block phá."],
-      ["Holy White Scroll", "Giữ bảo hộ item sau khi chết, tùy cấu hình."],
-      ["Book Enchantment", "Sách phù phép có success và destroy rate riêng."]
+      ["Holy White Scroll", "Bảo vệ item khỏi mất khi chết."],
+      ["Enchantment Book", "Sách phù phép có success và destroy rate riêng."],
     ];
 
     const commands = [
-      ["/enchanter", "Mở GUI Enchanter, không cần quyền trong mặc định."],
-      ["/tinkerer", "Mở GUI Tinkerer để đổi sách và item."],
+      ["/enchanter", "Mở GUI Enchanter."],
+      ["/tinkerer", "Mở GUI Tinkerer."],
       ["/gkits", "Mở menu Global Kits."],
-      ["/ae", "Lệnh chính của plugin, dùng cho info, give, admin, reload."],
+      ["/ae", "Lệnh chính của plugin."],
       ["/alchemist", "Mở GUI Alchemist."],
       ["/apply", "Lấy giáp đang mặc ra và áp lại hiệu ứng."],
-      ["/withdrawsouls", "Rút souls ra thành item theo cấu hình."],
-      ["/aegive", "Cấp item plugin / gkit cho người chơi."],
-      ["/asets", "Lệnh liên quan Advanced Sets."]
+      ["/withdrawsouls", "Rút souls ra thành item."],
+      ["/aegive", "Cấp item/plugin gkit cho người chơi."],
+      ["/asets", "Lệnh liên quan Advanced Sets."],
     ];
 
-    const files = [
-      ["config.yml", "Cấu hình lệnh, item hệ thống, slots, souls, white scroll, đổi ngôn ngữ."],
-      ["enchantments.yml", "Toàn bộ danh sách phù phép và level."],
-      ["groups.yml", "Nhóm enchant và màu group."],
-      ["anvil.yml", "Cấu hình anvil application."],
-      ["lootConfiguration.yml", "Cấu hình loot."],
-      ["mobHeads.yml", "Thiết lập mob head và rớt đầu mob."],
-      ["mobs.yml", "Danh sách mob / tương thích mob."],
-      ["locale/vi.yml", "Thông báo và ngôn ngữ tiếng Việt."],
-      ["menus/*.yml", "Các GUI như enchanter, alchemist, tinkerer, gkits."],
-      ["armorSets/*.yml", "Cấu hình từng bộ giáp."],
-      ["customWeapons/*.yml", "Vũ khí / item đặc biệt."]
+    const intro = [
+      ["Custom enchant lớn", "AE mang tới hệ phù phép riêng thay vì chỉ dựa vào enchant vanilla."],
+      ["Nhiều vật phẩm đặc biệt", "White Scroll, Black Scroll, Dust, Orb, Soul Gem và các item quản lý enchant."],
+      ["GUI nhiều chức năng", "Enchanter, Alchemist, Tinkerer, GKits và các menu hỗ trợ người chơi."],
+      ["Phù hợp server RPG", "Có souls, set, custom weapon, mob heads và loot để làm server sâu hơn."],
     ];
 
-    function makeGrid(items, fn) {
-      return items.map(fn).join("");
+    const features = [
+      ["182 enchantments", "Đã nhận diện 182 phù phép từ file enchantments.yml."],
+      ["6 group chính", "SIMPLE, UNIQUE, ELITE, ULTIMATE, LEGENDARY và FABLED."],
+      ["White/Black Scroll", "Bảo vệ item hoặc gỡ enchant theo cách có kiểm soát."],
+      ["Dust & Orb", "Điều chỉnh tỉ lệ thành công và số slot enchant."],
+      ["Souls system", "Cơ chế souls gắn với item và một số enchant đặc biệt."],
+      ["Armor sets", "Nhiều bộ giáp có bonus riêng như Ranger, Phantom, Yeti, Supreme, Koth."],
+      ["Custom weapons", "Có các vũ khí riêng như PhantomScythe, KothSword, KothAxe."],
+      ["API và event", "Có API và event để plugin khác tích hợp."],
+      ["GUI hệ thống", "Có các giao diện cho enchanter, alchemist, tinkerer và gkits."],
+      ["User commands", "Có lệnh cho info, give, admin, reload, apply và withdrawsouls."],
+      ["Loot & mob heads", "Hệ thống loot, mob heads và mobs config đi kèm."],
+      ["RPG balance", "Dễ ghép vào server cần tiến trình item sâu hơn vanilla."],
+    ];
+
+    const heroStats = [
+      ["182", "Enchant"],
+      ["6", "Nhóm enchant"],
+      ["10", "Item đặc biệt"],
+      ["9", "Lệnh chính"],
+    ];
+
+    const groupOrder = ["all", "SIMPLE", "UNIQUE", "ELITE", "ULTIMATE", "LEGENDARY", "FABLED"];
+    let activeGroup = "all";
+    let searchQuery = "";
+
+    function renderCards(target, data, tpl) {
+      document.getElementById(target).innerHTML = data.map(tpl).join("");
     }
 
-    function makeRows(items, fn) {
-      return items.map(fn).join("");
+    function buildGroupChips() {
+      const counts = window.AE_ENCHANTS.reduce((acc, item) => {
+        acc[item.group] = (acc[item.group] || 0) + 1;
+        return acc;
+      }, {});
+      document.getElementById("groupChips").innerHTML = groupOrder.map(key => {
+        const label = key === "all" ? `Tất cả (${window.AE_ENCHANTS.length})` : `${key} (${counts[key] || 0})`;
+        return `<button class="chip ${activeGroup === key ? 'active' : ''}" data-group="${key}">${label}</button>`;
+      }).join("");
     }
 
-    document.getElementById("heroStats").innerHTML = makeGrid([
-      ["182", "Phù phép"],
-      ["6", "Menus Việt Hóa"],
-      ["7", "Armor sets"],
-      ["5", "Custom weapons"]
-    ], item => `
+    function renderEnchants() {
+      const q = searchQuery.trim().toLowerCase();
+      const filtered = window.AE_ENCHANTS.filter(item => {
+        const matchesGroup = activeGroup === "all" || item.group === activeGroup;
+        const hay = `${item.id} ${item.name} ${item.group} ${item.applies} ${item.type} ${item.desc}`.toLowerCase();
+        return matchesGroup && hay.includes(q);
+      });
+
+      const header = `
+        <div class="row header">
+          <div>Tên enchant</div>
+          <div>Nhóm</div>
+          <div>Áp dụng</div>
+          <div>Kiểu</div>
+          <div>Tác dụng</div>
+        </div>
+      `;
+      const body = filtered.map(item => `
+        <div class="row">
+          <div class="label" data-label="Tên enchant">
+            <b>${item.name}</b>
+            <div class="muted">${item.id}</div>
+          </div>
+          <div class="label" data-label="Nhóm">
+            <span class="pill">${translateGroup(item.group)}</span>
+          </div>
+          <div class="label" data-label="Áp dụng">
+            <span class="muted">${translateApplies(item.applies)}</span>
+          </div>
+          <div class="label" data-label="Kiểu">
+            <span class="muted">${translateType(item.type)}</span>
+          </div>
+          <div class="label effect" data-label="Tác dụng">
+            ${translateEffect(item.desc)}
+          </div>
+        </div>
+      `).join("");
+
+      document.getElementById("enchantList").innerHTML = header + body;
+    }
+
+    renderCards("heroStats", heroStats, item => `
       <div class="stat">
         <b>${item[0]}</b>
         <span>${item[1]}</span>
       </div>
     `);
 
-    document.getElementById("introCards").innerHTML = makeGrid(intro, item => `
+    renderCards("introCards", intro, item => `
       <article class="card">
         <h3>${item[0]}</h3>
         <p>${item[1]}</p>
       </article>
     `);
 
-    document.getElementById("featureCards").innerHTML = makeGrid(features, item => `
+    renderCards("featureCards", features, item => `
       <article class="card">
         <div class="tag">Feature</div>
         <h3>${item[0]}</h3>
@@ -961,42 +1133,35 @@
       </article>
     `);
 
-    document.getElementById("enchantCards").innerHTML = makeGrid(enchantGroups, item => `
-      <article class="card">
-        <div class="tag">Enchant Group</div>
-        <h3>${item[0]}</h3>
-        <p>${item[1]}</p>
-      </article>
-    `);
-
-    document.getElementById("menuCards").innerHTML = makeGrid(menus, item => `
-      <article class="card">
-        <div class="tag">Menu</div>
-        <h3>${item[0]}</h3>
-        <p>${item[1]}</p>
-      </article>
-    `);
-
-    document.getElementById("itemList").innerHTML = makeRows(items, item => `
+    renderCards("itemList", items, item => `
       <div class="row">
-        <b>${item[0]}</b>
-        <span>${item[1]}</span>
+        <div class="label" data-label="Vật phẩm"><b>${item[0]}</b></div>
+        <div class="label effect" data-label="Tác dụng">${item[1]}</div>
       </div>
     `);
 
-    document.getElementById("commandList").innerHTML = makeRows(commands, item => `
+    renderCards("commandList", commands, item => `
       <div class="row">
-        <b>${item[0]}</b>
-        <span>${item[1]}</span>
+        <div class="label" data-label="Lệnh"><b>${item[0]}</b></div>
+        <div class="label effect" data-label="Chức năng">${item[1]}</div>
       </div>
     `);
 
-    document.getElementById("fileList").innerHTML = makeRows(files, item => `
-      <div class="row">
-        <b>${item[0]}</b>
-        <span>${item[1]}</span>
-      </div>
-    `);
+    buildGroupChips();
+    renderEnchants();
+
+    document.getElementById("enchantSearch").addEventListener("input", (e) => {
+      searchQuery = e.target.value;
+      renderEnchants();
+    });
+
+    document.getElementById("groupChips").addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-group]");
+      if (!btn) return;
+      activeGroup = btn.dataset.group;
+      buildGroupChips();
+      renderEnchants();
+    });
 
     const navLinks = [...document.querySelectorAll("#navLinks a")];
     const sections = navLinks.map(link => document.querySelector(link.getAttribute("href"))).filter(Boolean);
@@ -1014,19 +1179,6 @@
         const match = link.textContent.toLowerCase().includes(q);
         link.classList.toggle("hidden", q.length > 0 && !match);
       });
-    });
-
-    const enchantSearch = document.getElementById("enchantSearch");
-    enchantSearch.addEventListener("input", () => {
-      const q = enchantSearch.value.trim().toLowerCase();
-      const filtered = enchantGroups.filter(item => `${item[0]} ${item[1]}`.toLowerCase().includes(q));
-      document.getElementById("enchantCards").innerHTML = makeGrid(filtered, item => `
-        <article class="card">
-          <div class="tag">Enchant Group</div>
-          <h3>${item[0]}</h3>
-          <p>${item[1]}</p>
-        </article>
-      `);
     });
 
     document.addEventListener("keydown", (e) => {
