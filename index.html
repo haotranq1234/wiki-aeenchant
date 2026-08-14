@@ -675,6 +675,7 @@
           <a href="#enchant">182 Enchant</a>
           <a href="#items">Vật phẩm</a>
           <a href="#commands">Lệnh</a>
+          <a href="#an-enchant">Ẩn enchant</a>
         </nav>
 
         <div class="sidebar-title">Nhóm enchant</div>
@@ -831,6 +832,18 @@
             </div>
           </div>
         </section>
+
+        <section class="section" id="an-enchant">
+          <div class="section-head">
+            <div>
+              <h2>Ẩn enchant nhưng giữ hiệu ứng</h2>
+              <p>Nếu bạn muốn item vẫn có enchant để hoạt động bình thường nhưng không hiện danh sách enchant trên lore, đây là cách làm đúng nhất với AE.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-inner cards" id="hideEnchantCards"></div>
+          </div>
+        </section>
       </div>
     </main>
   </div>
@@ -960,6 +973,12 @@
       ["/asets", "Lệnh liên quan Advanced Sets."],
     ];
 
+    const hideEnchantCards = [
+      ["Ẩn dòng enchant", "Dùng `ItemFlag.HIDE_ENCHANTS` để ẩn tên enchant trên item. Đây là cách chuẩn của Bukkit/Spigot và cũng là kiểu flag mà AE cho phép gán qua `/aegive itemflag:(flag)`."],
+      ["Giữ nguyên hiệu ứng", "Item vẫn còn enchant thật nên hiệu ứng, sức mạnh và cơ chế AE vẫn hoạt động bình thường. Chỉ phần chữ hiển thị trên lore bị ẩn đi."],
+      ["Lưu ý quan trọng", "Cách này không tắt được ánh sáng tím (glow) của item. Nếu muốn item nhìn gọn hơn nữa, hãy kết hợp với lore tự viết hoặc chỉnh cách sắp xếp enchant trong config."],
+    ];
+
     const intro = [
       ["Custom enchant lớn", "AE mang tới hệ phù phép riêng thay vì chỉ dựa vào enchant vanilla."],
       ["Nhiều vật phẩm đặc biệt", "White Scroll, Black Scroll, Dust, Orb, Soul Gem và các item quản lý enchant."],
@@ -1087,6 +1106,13 @@
         <div class="label" data-label="Lệnh"><b>${item[0]}</b></div>
         <div class="label effect" data-label="Chức năng">${item[1]}</div>
       </div>
+    `);
+
+    renderCards("hideEnchantCards", hideEnchantCards, item => `
+      <article class="card">
+        <h3>${item[0]}</h3>
+        <p>${item[1]}</p>
+      </article>
     `);
 
     buildGroupChips();
