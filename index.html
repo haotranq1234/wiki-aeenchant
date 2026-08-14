@@ -538,7 +538,7 @@
 
     .row {
       display: grid;
-      grid-template-columns: 220px 100px 120px 120px 1fr;
+      grid-template-columns: 220px 100px 120px 120px 220px 1fr;
       gap: 12px;
       padding: 14px 16px;
       border-radius: 16px;
@@ -564,6 +564,25 @@
 
     .muted { color: var(--muted); }
     .effect { line-height: 1.66; color: var(--text); }
+
+    .levels {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .level-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.10);
+      border: 1px solid rgba(56, 189, 248, 0.16);
+      color: #cfefff;
+      font-size: 0.78rem;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
 
     .pill {
       display: inline-flex;
@@ -767,13 +786,13 @@
           <div class="section-head">
             <div>
               <h2>Danh sách 182 enchant</h2>
-              <p>Mỗi dòng gồm tên enchant, nhóm, loại vật phẩm áp dụng, kiểu kích hoạt và mô tả tác dụng bằng tiếng Việt.</p>
+              <p>Mỗi dòng gồm tên enchant, nhóm, loại vật phẩm áp dụng, kiểu kích hoạt, cấp sách, tỉ lệ kích hoạt và mô tả tác dụng bằng tiếng Việt.</p>
             </div>
           </div>
           <div class="panel">
             <div class="panel-inner">
               <div class="toolbar">
-                <input id="enchantSearch" type="search" placeholder="Tìm enchant, ví dụ: soul, lightning, trap, armor..." />
+                <input id="enchantSearch" type="search" placeholder="Tìm enchant, level, tỉ lệ, ví dụ: soul, lightning, trap, 25%..." />
               </div>
               <div class="chips" id="groupChips"></div>
               <div style="height: 14px;"></div>
@@ -906,6 +925,16 @@
       return appliesLabels[applies] || applies.replace(/_/g, " ");
     }
 
+    function translateLevels(levels, summary) {
+      if (!levels || !levels.length) {
+        return `<span class="muted">${summary || "Không rõ"}</span>`;
+      }
+      return `<div class="levels">${levels.map(level => {
+        const chance = level.chance == null ? "mặc định" : `${level.chance}%`;
+        return `<span class="level-pill">Lv ${level.level}: ${chance}</span>`;
+      }).join("")}</div>`;
+    }
+
     const items = [
       ["White Scroll", "Bảo vệ item khỏi bị phá hủy khi sách thất bại."],
       ["Black Scroll", "Gỡ ngẫu nhiên một enchant khỏi vật phẩm."],
@@ -983,18 +1012,19 @@
       const q = searchQuery.trim().toLowerCase();
       const filtered = window.AE_ENCHANTS.filter(item => {
         const matchesGroup = activeGroup === "all" || item.group === activeGroup;
-        const hay = `${item.id} ${item.name} ${item.group} ${item.applies} ${item.type} ${item.desc} ${item.descVi || ""}`.toLowerCase();
+        const hay = `${item.id} ${item.name} ${item.group} ${item.applies} ${item.type} ${item.desc} ${item.descVi || ""} ${item.levelSummary || ""}`.toLowerCase();
         return matchesGroup && hay.includes(q);
       });
 
       const header = `
-        <div class="row header">
-          <div>Tên enchant</div>
-          <div>Nhóm</div>
-          <div>Áp dụng</div>
-          <div>Kiểu</div>
-          <div>Tác dụng</div>
-        </div>
+          <div class="row header">
+            <div>Tên enchant</div>
+            <div>Nhóm</div>
+            <div>Áp dụng</div>
+            <div>Kiểu</div>
+            <div>Cấp / tỉ lệ</div>
+            <div>Tác dụng</div>
+          </div>
       `;
       const body = filtered.map(item => `
         <div class="row">
@@ -1010,6 +1040,9 @@
           </div>
           <div class="label" data-label="Kiểu">
             <span class="muted">${translateType(item.type)}</span>
+          </div>
+          <div class="label" data-label="Cấp / tỉ lệ">
+            ${translateLevels(item.levels, item.levelSummary)}
           </div>
           <div class="label effect" data-label="Tác dụng">
             ${item.descVi || item.desc || "Chưa có mô tả."}
